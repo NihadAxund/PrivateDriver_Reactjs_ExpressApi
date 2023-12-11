@@ -1,17 +1,65 @@
 import React, { useEffect, useState } from 'react'
 import '../componentsCss/LoginSignup.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginAsync } from '../redux/features/opening/loginSlice.js';
 
 export default function SiginSignup() {
+    const dispatch = useDispatch();
+    const { email, password, token } = useSelector((state) => state.login);
     const [isStart, setisStart] = useState(false)
     useEffect(() => {
         setTimeout(() => {
             import('../componentsJs/LoginSignup.js')
                 .catch(error => console.error('Error loading LoginSignup.js:', error));
             setisStart(true);
+
         }, 900);
+
+
+
     }, []);
 
-    if(isStart){
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Dispatch the loginAsync action with the email and password
+                await dispatch(loginAsync({ email, password }));
+                // The token is now updated in the Redux store; you can handle success here
+                console.log('Login successful!');
+            } catch (error) {
+                console.error('Login failed:', error.message);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        if (token != null) {
+            console.log(token)
+        }
+    }, [token])
+
+
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    const handleLoginSubmit = (e) => {
+        e.preventDefault(); // Formun normal submit işlemini engelle
+        let emailInput = document.getElementById('signinemail').value;
+        let passwordInput = document.getElementById('signinpassword').value;
+        if (!validateEmail(emailInput)||passwordInput.length < 5) {
+            emailInput = ""; passwordInput = "";
+            return;
+        }
+        console.log('Email:', emailInput);
+        console.log('Password:', passwordInput);
+    };
+
+    if (isStart) {
         return (
             <div className='myBody'>
                 <div className="container animate__animated animate__backInDown" id="container">
@@ -26,18 +74,22 @@ export default function SiginSignup() {
                         </form>
                     </div>
                     <div className="form-container sign-in-container">
-                        <form action="#">
+                        <form onSubmit={handleLoginSubmit}>
                             <h1>Sign in</h1>
-                            <div className="social-container">
-                                <a href="#" className="social"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#" className="social"><i class="fab fa-google-plus-g"></i></a>
-                                <a href="#" className="social"><i class="fab fa-linkedin-in"></i></a>
-                            </div>
-                            <span>or use your account</span>
-                            <input type="email" placeHolder="Email" />
-                            <input type="password" placeHolder="Password" />
-                            <a href="#">Forgot your password?</a>
-                            <button>Sign In</button>
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                id="signinemail"
+                                required
+                            />
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                id="signinpassword"
+                                required
+                                minLength="5"
+                            />
+                            <button type="submit">Sign In</button>
                         </form>
                     </div>
                     <div className="overlay-container">
@@ -55,21 +107,21 @@ export default function SiginSignup() {
                         </div>
                     </div>
                 </div>
-    
-                <footer  className='animate__animated animate__rotateInUpLeft'>
+
+                <footer className='animate__animated animate__rotateInUpLeft'>
                     <p>
-                        Created with <i className="fa fa-heart"></i> by 
+                        Created with <i className="fa fa-heart"></i> by
                         <a target="_blank" href="https://www.linkedin.com/in/nihad-axundzade-760296240/"> Nihad Axundzade</a>.
                     </p>
                 </footer>
-    
-    
+
+
                 <script src='./componentsJs/LoginSignup.js'></script>
             </div>
         )
     }
-    else{
+    else {
         return <></>
     }
-        
+
 }
