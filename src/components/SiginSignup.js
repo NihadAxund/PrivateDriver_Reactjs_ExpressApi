@@ -1,12 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import '../componentsCss/LoginSignup.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginAsync } from '../redux/features/opening/loginSlice.js';
+import { loginAsync, signupAsync } from '../redux/features/opening/loginSignupSlice.js';
+import { Navigate } from 'react-router-dom';
 
 export default function SiginSignup() {
     const dispatch = useDispatch();
-    const { email, password, token } = useSelector((state) => state.login);
+    const { email, password, token, isUser } = useSelector((state) => state.login);
     const [isStart, setisStart] = useState(false)
+    const [isNihad,setisNihad] = useState(false);
+
+    const fetchLoginData2 = async (email,password) => {
+        try {
+            await dispatch(loginAsync({ email, password }));
+
+            console.log('Login successful!');
+           setisNihad(true);
+        } catch (error) {
+            console.error('Login failed:', error.message);
+
+        }
+    };
+
+    const fetchSignupData = async (name,email,password) =>{
+        try {
+            await dispatch(signupAsync({name,email,password}))
+            console.log("Signup successful!");
+            return true
+        } catch (error) {
+            console.log("Signup failed", error.message);
+            return false
+        }
+    }
+
     useEffect(() => {
         setTimeout(() => {
             import('../componentsJs/LoginSignup.js')
@@ -19,23 +45,18 @@ export default function SiginSignup() {
 
     }, []);
 
+    
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Dispatch the loginAsync action with the email and password
-                await dispatch(loginAsync({ email, password }));
-                // The token is now updated in the Redux store; you can handle success here
-                console.log('Login successful!');
-            } catch (error) {
-                console.error('Login failed:', error.message);
-            }
-        };
+        if(isUser){
+            alert("------------")
+            alert(email);
+            fetchLoginData2(email,password);
+        }
 
-        fetchData();
-    }, []);
+    }, [isUser]);
 
     useEffect(() => {
-        if (token != null) {
+        if (token&&token != null&&token.length>6) {
             console.log(token)
         }
     }, [token])
@@ -49,27 +70,55 @@ export default function SiginSignup() {
 
     const handleLoginSubmit = (e) => {
         e.preventDefault(); // Formun normal submit işlemini engelle
-        let emailInput = document.getElementById('signinemail').value;
-        let passwordInput = document.getElementById('signinpassword').value;
-        if (!validateEmail(emailInput)||passwordInput.length < 5) {
-            emailInput = ""; passwordInput = "";
+        let emailInput = document.getElementById('signinemail');
+        let passwordInput = document.getElementById('signinpassword');
+        if (!validateEmail(emailInput.value)||passwordInput.value.length <= 5) {
+            emailInput.value = ""; passwordInput.value = "";
             return;
         }
-        console.log('Email:', emailInput);
-        console.log('Password:', passwordInput);
+        console.log('Email:', emailInput.value);
+        console.log('Password:', passwordInput.value);
+        fetchLoginData2(emailInput.value,passwordInput.value);
+      
     };
 
-    if (isStart) {
+    const handleSignupSubmit = async (e) =>{
+        e.preventDefault();
+        let nameInput = document.getElementById("namesignup");
+        let emailInput = document.getElementById("emailsignup");
+        let passwordInput = document.getElementById("passwordsignup");
+        let signuptxt = document.getElementById("SignupTxt");
+        if (nameInput.value.length<=2||!validateEmail(emailInput.value)||passwordInput.value.length <= 5) {
+            emailInput.value = ""; passwordInput.value = ""; nameInput.value = "";
+            return;
+        }
+        let boolen = await fetchSignupData(nameInput.value,emailInput.value,passwordInput.value)
+        if(!boolen){
+            nameInput.value = ""; emailInput.value = ""; passwordInput.value = "";
+            signuptxt.innerHTML ="This email is already in use."
+            signuptxt.style.fontSize = "19px";  
+            signuptxt.style.color = "red";
+            return
+        }
+    
+        console.log("Name: ",nameInput.value)
+        console.log('Email:', emailInput.value);
+        console.log('Password:', passwordInput.value);
+    }
+    if(isNihad){
+      return <Navigate to="/Home" />
+    }
+    else if (isStart) {
         return (
             <div className='myBody'>
                 <div className="container animate__animated animate__backInDown" id="container">
                     <div className="form-container sign-up-container">
-                        <form action="#">
-                            <h1>Create Account</h1>
+                        <form onSubmit={handleSignupSubmit}>
+                            <h1 id="SignupTxt">Create Account</h1>
                             <span>or use your email htmlFor registration</span>
-                            <input type="text" placeHolder="Name" />
-                            <input type="email" placeHolder="Email" />
-                            <input type="password" placeHolder="Password" />
+                            <input type="text" placeHolder="Name" id="namesignup" />
+                            <input type="email" placeHolder="Email" id="emailsignup" />
+                            <input type="password" placeHolder="Password" id="passwordsignup" />
                             <button>Sign Up</button>
                         </form>
                     </div>
