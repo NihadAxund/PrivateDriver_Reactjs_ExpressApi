@@ -7,23 +7,24 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import SigninSignup from './components/SiginSignup'
 import { useSelector } from 'react-redux';
+import NotFound from './components/NotFound';
 function App() {
   const { name, email, password, token, isUser } = useSelector((state) => state.login);
-  const CheckAuth = () =>{
-    if(!isUser||!token)
-     return <Navigate to="/siginsignup" />
-    else 
-      return <></>
+  const CheckAuth = () => {
+    // if(!isUser||!token)
+    // return <Navigate to="/siginsignup" />
+    // else 
+    return <></>
   }
   return (
     <Router>
       <div>
         <Routes>
           <Route path="/" element={<Home />
-        
+
           } />
           <Route path="/Home" element={<Home />
-        
+
           } />
           <Route
             path="/login"
@@ -44,18 +45,19 @@ function App() {
             }
           />
           <Route
-          path="/siginsignup"
-          element={
-            <div>
-              <SigninSignup />
-   
-            </div>
-          }
-        />
+            path="/siginsignup"
+            element={
+              <div>
+                <SigninSignup />
+
+              </div>
+            }
+          />
+          <Route path="*" element={<NotFound/>} />
         </Routes>
         {CheckAuth()}
       </div>
-      
+
     </Router>
   );
 }

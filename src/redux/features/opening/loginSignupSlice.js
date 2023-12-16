@@ -15,8 +15,8 @@ let initialState = {
     error: null,
 };
 
-// Değeri localStorage'dan sil
-// localStorage.removeItem('reduxState');
+// delete LocalStorage
+ localStorage.removeItem('reduxState');
 
 
 
