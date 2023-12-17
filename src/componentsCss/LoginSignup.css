@@ -1,7 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
-* {
+.myBody * {
 	box-sizing: border-box;
 }
 
@@ -16,12 +16,12 @@
 	margin: -10px 0 10px;
 }
 
-h1 {
+.myBody h1 {
 	font-weight: bold;
 	margin: 0;
 }
 
-h2 {
+.myBody h2 {
 	text-align: center;
 }
 
@@ -44,7 +44,7 @@ a {
 	margin: 15px 0;
 }
 
-button {
+ button {
 	border-radius: 20px;
 	border: 1px solid #FF4B2B;
 	background-color: #FF4B2B;
@@ -81,15 +81,16 @@ form {
 	text-align: center;
 }
 
-input {
-	background-color: #eee;
+.myBody input {
+	background-color: #eee !important;
 	border: none;
 	padding: 12px 15px;
 	margin: 8px 0;
 	width: 100%;
+	color: black;
 }
 
-.container {
+.myBody .container {
 	background-color: #fff;
 	border-radius: 10px;
   	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
@@ -101,31 +102,31 @@ input {
 	min-height: 480px;
 }
 
-.form-container {
+.myBody .form-container {
 	position: absolute;
 	top: 0;
 	height: 100%;
 	transition: all 0.6s ease-in-out;
 }
 
-.sign-in-container {
+.myBody .sign-in-container {
 	left: 0;
 	width: 50%;
 	z-index: 2;
 }
 
-.container.right-panel-active .sign-in-container {
+.myBody .container.right-panel-active .sign-in-container {
 	transform: translateX(100%);
 }
 
-.sign-up-container {
+.myBody .sign-up-container {
 	left: 0;
 	width: 50%;
 	opacity: 0;
 	z-index: 1;
 }
 
-.container.right-panel-active .sign-up-container {
+.myBody .container.right-panel-active .sign-up-container {
 	transform: translateX(100%);
 	opacity: 1;
 	z-index: 5;

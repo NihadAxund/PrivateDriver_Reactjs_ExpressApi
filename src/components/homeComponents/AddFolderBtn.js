@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { addFolderAsync } from '../../redux/features/filefolder/fileFolderSlice';
+import { addFolderAsync, getUserFoldersAsync } from '../../redux/features/filefolder/fileFolderSlice';
 import { useDispatch } from 'react-redux';
-
 export default function AddFolderBtn() {
     const dispatch = useDispatch();
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -18,11 +17,11 @@ export default function AddFolderBtn() {
 
         if(!folderName)
             return
-        alert(folderName)
         try {
             await dispatch(addFolderAsync({ folderName }));
-
             console.log('Folder Succes!');
+            dispatch(getUserFoldersAsync());
+            setDropdownOpen(prevState => !prevState);
         } catch (error) {
             console.error('Add Folder failed:', error.message);
 
