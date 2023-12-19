@@ -49,8 +49,6 @@ export default function SiginSignup() {
     
     useEffect(() => {
         if(isUser){
-            alert("------------")
-            alert(email);
             fetchLoginData2(email,password);
         }
 

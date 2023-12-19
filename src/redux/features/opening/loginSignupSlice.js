@@ -23,8 +23,6 @@ let initialState = {
 
 if (storedState) {
     const memorydata = JSON.parse(storedState);
-    console.log("memeorydata");
-    console.log(memorydata);
     if (memorydata.loginSignup && memorydata.loginSignup.email && memorydata.loginSignup.password && memorydata.loginSignup.token) {
         initialState = memorydata.loginSignup;
         initialState.isUser = true;
