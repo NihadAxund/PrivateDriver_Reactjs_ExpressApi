@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Folder from './Folder'
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserFoldersAsync } from '../../redux/features/filefolder/fileFolderSlice';
 import DelayedFolder from './DelayedFolder';
@@ -22,9 +21,10 @@ export default function FolderList() {
       }
     };
     console.log(folders)
-    // async fonksiyonu çağırın
+    
     fetchData();
   }, []);
+
 
   
   return (
@@ -33,6 +33,7 @@ export default function FolderList() {
         <section className='filebar'>
           <p>{DriverPath}</p>
         </section>
+     
         {folders.map((folder, index) => (
           <DelayedFolder key={folder.id} folder={folder} delay={index * 500} />
           

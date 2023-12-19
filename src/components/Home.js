@@ -27,7 +27,6 @@ export default function Home() {
 
           <section className='Tool-sec'>
             <AddFolderBtn />
-            <AddFileBtn />
           </section>
 
         </section>

@@ -2,9 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 //const urlText = "https://privatedriver.onrender.com";
-const urlText = "https://privatedriver.onrender.com";
+const urlText = "http://localhost:3005";
 
 const storedState = localStorage.getItem('reduxState');
+
 let initialState = {
     name: null,
     email: null,
@@ -16,7 +17,7 @@ let initialState = {
 };
 
 // delete LocalStorage
- localStorage.removeItem('reduxState');
+// localStorage.removeItem('reduxState');
 
 
 
@@ -24,7 +25,7 @@ if (storedState) {
     const memorydata = JSON.parse(storedState);
     console.log("memeorydata");
     console.log(memorydata);
-    if (memorydata.loginSignup && memorydata.loginSignup.name && memorydata.loginSignup.email && memorydata.loginSignup.password && memorydata.loginSignup.token) {
+    if (memorydata.loginSignup && memorydata.loginSignup.email && memorydata.loginSignup.password && memorydata.loginSignup.token) {
         initialState = memorydata.loginSignup;
         initialState.isUser = true;
     }
@@ -104,7 +105,7 @@ export const loginSignupSlice = createSlice({
 
             const user = action.meta.arg;
             if (user.email && user.password) {
-                alert(user.name)
+                
                 state.name = user.name
                 state.email = user.email
                 state.password = user.password;

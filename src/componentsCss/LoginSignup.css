@@ -33,18 +33,18 @@ p {
 	margin: 20px 0 30px;
 }
 
-span {
+.myBody span {
 	font-size: 12px;
 }
 
-a {
+.myBody a {
 	color: #333;
 	font-size: 14px;
 	text-decoration: none;
 	margin: 15px 0;
 }
 
- button {
+.myBody button {
 	border-radius: 20px;
 	border: 1px solid #FF4B2B;
 	background-color: #FF4B2B;
@@ -57,20 +57,20 @@ a {
 	transition: transform 80ms ease-in;
 }
 
-button:active {
+.myBody button:active {
 	transform: scale(0.95);
 }
 
-button:focus {
+.myBody button:focus {
 	outline: none;
 }
 
-button.ghost {
+.myBody button.ghost {
 	background-color: transparent;
 	border-color: #FFFFFF;
 }
 
-form {
+.myBody form {
 	background-color: #FFFFFF;
 	display: flex;
 	align-items: center;
@@ -145,7 +145,7 @@ form {
 	}
 }
 
-.overlay-container {
+.myBody .overlay-container {
 	position: absolute;
 	top: 0;
 	left: 50%;
@@ -156,11 +156,11 @@ form {
 	z-index: 100;
 }
 
-.container.right-panel-active .overlay-container{
+.myBody .container.right-panel-active .overlay-container{
 	transform: translateX(-100%);
 }
 
-.overlay {
+.myBody .overlay {
 	background: #FF416C;
 	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
 	background: linear-gradient(to right, #FF4B2B, #FF416C);
@@ -176,11 +176,11 @@ form {
 	transition: transform 0.6s ease-in-out;
 }
 
-.container.right-panel-active .overlay {
+.myBody .container.right-panel-active .overlay {
   	transform: translateX(50%);
 }
 
-.overlay-panel {
+.myBody .overlay-panel {
 	position: absolute;
 	display: flex;
 	align-items: center;
@@ -208,13 +208,13 @@ form {
 	transform: translateX(0);
 }
 
-.container.right-panel-active .overlay-right {
+.myBody .container.right-panel-active .overlay-right {
 	transform: translateX(20%);
 }
 
 
 
-footer {
+.myBody footer {
     background-color: #222;
     color: #fff;
     font-size: 14px;
@@ -226,15 +226,15 @@ footer {
     z-index: 999;
 }
 
-footer p {
+.myBody footer p {
     margin: 10px 0;
 }
 
-footer i {
+.myBody footer i {
     color: red;
 }
 
-footer a {
+.myBody footer a {
     color: #ff3560;
     text-decoration: none;
 }

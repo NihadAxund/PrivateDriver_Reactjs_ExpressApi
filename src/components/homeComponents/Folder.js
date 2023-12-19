@@ -25,7 +25,7 @@ export default function Folder(props) {
   };
 
   return (
-    <div className='animate__animated animate__zoomInDown'>
+    <div className='animate__animated animate__zoomInDown folderbtn'>
 
       <button style={{ overflow: "hidden" }} onClick={openModal}>
         <i className="fa-regular fa-folder-open" style={{ color: '#ffe14d' }}></i>
