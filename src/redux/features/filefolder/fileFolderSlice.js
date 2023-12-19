@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 
-//const urlText = "https://privatedriver.onrender.com";
-const urlText = "http://localhost:3005"
+const urlText = "https://privatedriver.onrender.com";
+//const urlText = "http://localhost:3005"
 
 let initialState = {
     path:null,
@@ -12,7 +12,7 @@ let initialState = {
     files:[],
 
 };  
-//const token ="eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1N2E0YjQ0M2E5NWIxYWVkZGQ5ODNlMSIsImVtYWlsIjoibmloYXRheHVuZHphZGUwNkBnbWFpbC5jb20iLCJpYXQiOjE3MDI3NDY4ODksImV4cCI6MTcwMjc4Mjg4OX0.E5S6jUjuHGCn459hcmtV_-yj4z3dksjeWMInjY9VMOcBheR7po146RLhiHHYl4hMvwBZ3tLQtRWzjW23burjSQ";
+
 
 export const getFolderZipAsync = createAsyncThunk("fileFolder/folderzip", async ({ folderid }, thunkAPI) => {
     const state = thunkAPI.getState();
@@ -23,29 +23,22 @@ export const getFolderZipAsync = createAsyncThunk("fileFolder/folderzip", async 
             headers: {
                 Authorization: `Bearer ${token}`
             },
-            responseType: 'blob', // Response tipini 'blob' olarak ayarla
+            responseType: 'blob', 
         });
-        alert("kecdik")
-        // Blob oluştur ve dosyayı indir
+
+
         const blob = new Blob([response.data], { type: 'application/zip' });
         const url = window.URL.createObjectURL(blob);
 
-        // Dosyayı otomatik olarak indirme işlemi için bir <a> etiketi oluştur
+        
         const a = document.createElement('a');
         a.href = url;
         a.download = 'folder.zip';
 
-        // Etiketi sayfaya ekle ve tıkla
         document.body.appendChild(a);
         a.click();
-
-        // Sayfadan etiketi kaldır
         document.body.removeChild(a);
-
-        // URL'yi temizle
         window.URL.revokeObjectURL(url);
-
-        // İşlem tamamlandığında yapılacak işlemleri burada gerçekleştirebilirsiniz
         console.log('Download completed:', response);
     } catch (error) {
         console.error("Error Get Folder Zip:", error);

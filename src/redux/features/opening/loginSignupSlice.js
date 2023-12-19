@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-//const urlText = "https://privatedriver.onrender.com";
-const urlText = "http://localhost:3005";
+const urlText = "https://privatedriver.onrender.com";
+//const urlText = "http://localhost:3005";
 
 const storedState = localStorage.getItem('reduxState');
 
