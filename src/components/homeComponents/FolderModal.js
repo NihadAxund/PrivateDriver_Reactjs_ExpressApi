@@ -14,6 +14,7 @@ function getLastPathComponent(fullPath) {
 }
 
 // const sharedurl = "http://localhost:3000/joinfolder/";
+
 const sharedurl = "https://privatedriver.onrender.com/joinfolder/"
 
 const FolderModal = ({ folder, closeModal, isGuest = false }) => {
