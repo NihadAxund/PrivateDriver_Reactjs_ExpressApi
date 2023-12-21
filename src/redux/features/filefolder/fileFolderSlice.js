@@ -1,17 +1,63 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 
-const urlText = "https://privatedriver.onrender.com";
-//const urlText = "http://localhost:3005"
+//const urlText = "https://privatedriver.onrender.com";
+const urlText = "http://localhost:3005"
 
 let initialState = {
     path:null,
     error: null,
+    sharedfoldercode:null,
     folders: [],
+    joinedFolder:[],
     files:[],
 
 };  
+
+export const checkjoinedLinkAsync = createAsyncThunk("fileFolder/joinfolder", async ({sharedcode},thunkAPI)=>{
+    const state = thunkAPI.getState();
+    const { token } = state.login;
+    console.log("checkjoinedLinkAsync section")
+   
+    
+    try {
+        const response = await axios.get(`${urlText}/driver/joinfolder`, {
+            params: { sharedcode },
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        const data = response.data;
+        console.log(data);
+      
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        throw new Error(error);
+    }
+});
+
+export const createShareLinkAsync = createAsyncThunk("fileFolder/createSharedLink", async ({folderid},thunkAPI)=>{
+    const state = thunkAPI.getState();
+    const { token } = state.login;
+    console.log("create shared link section")
+    try {
+
+        const response = await axios.post(`${urlText}/driver/createsharedlink`, { folderid }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const data = response.data;
+        console.log(data);
+        return response.data;
+
+    } catch (error) {
+        console.error("Error create share link :", error);
+        throw new Error("Error create share link");
+    }
+});
 
 
 export const getFolderZipAsync = createAsyncThunk("fileFolder/folderzip", async ({ folderid }, thunkAPI) => {
@@ -124,20 +170,30 @@ export const RemoveUserFolderAsync = createAsyncThunk("fileFolder/RemoveUserFold
 export const getUserFoldersAsync = createAsyncThunk("fileFolder/userFolders", async (_, thunkAPI) => {
     const state = thunkAPI.getState();
     const { token } = state.login;
-    
+    if(!token){
+       
+        localStorage.removeItem('reduxState');
+        setTimeout(() => {
+
+            window.location.href = '/siginsignup';  
+        }, 500);
+        return
+    }
     try {
-      console.log(token);
-      console.log("Get User Folders");
-      const response = await axios.get(`${urlText}/driver/userfolders`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+        console.log(token);
+        console.log("Get User Folders");
+        const response = await axios.get(`${urlText}/driver/userfolders`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+       
       let data = response.data;
-      console.log("aaaaaaadd223aaaaaaaaaa");
+      console.log("User Folders data");
       console.log(data);
       return response.data;
     } catch (error) {
+        localStorage.removeItem('reduxState');
       console.error("Error in getUserFoldersAsync:", error);
       throw new Error("Get User Folders");
     }
@@ -175,7 +231,13 @@ export const addFolderAsync = createAsyncThunk("fileFolder/addFolderAsync", asyn
 export const fileFolderSlice = createSlice({
     name: "fileFolder",
     initialState,
-    reducers: {},
+    reducers: {
+
+        setSharedFolderCode: (state, action) => {
+            state.sharedfoldercode = action.payload;
+          },
+
+    },
     extraReducers: (builder) => {
         ///AddFolderAsync
         builder.addCase(addFolderAsync.pending, (state, action) => {
@@ -196,7 +258,7 @@ export const fileFolderSlice = createSlice({
         });
         ////getUserFoldersAsync
         builder.addCase(getUserFoldersAsync.pending, (state, action) => {
-  
+            ///// your code Nihad
 
         });
         builder.addCase(getUserFoldersAsync.fulfilled, (state, action) => {
@@ -205,6 +267,9 @@ export const fileFolderSlice = createSlice({
             console.log(data);
             // Update state with the received data if needed
             state.folders = data.folderInfo;
+            if(data.joinedFolder){
+               state.joinedFolder = data.joinedFolder 
+            }
         });
         builder.addCase(getUserFoldersAsync.rejected,(state, action)=>{
             state.folders = [];
@@ -250,9 +315,34 @@ export const fileFolderSlice = createSlice({
             
         });
 
+
+        ////createShareLinkAsync
+        builder.addCase(createShareLinkAsync.fulfilled, (state,action)=>{
+            const item = action.payload;
+            if(item&&item.length >0){
+                state.sharedfoldercode = item;
+            }
+            else{
+                state.sharedfoldercode = null;
+            }
+        });
+
+        builder.addCase(createShareLinkAsync.rejected,(state, action)=>{
+            state.sharedfoldercode = null;
+            throw new Error("Error create share link");
+        });
+
+        //checkjoinedLinkAsync
+
+        builder.addCase(checkjoinedLinkAsync.rejected,(state, action)=>{
+
+            throw new Error("Error create share link");
+        });
+
+
     },
 });
 
-
+export const { setSharedFolderCode } = fileFolderSlice.actions;
 
 export default fileFolderSlice.reducer;

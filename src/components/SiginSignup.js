@@ -14,7 +14,7 @@ export default function SiginSignup() {
     const fetchLoginData2 = async (email,password) => {
         try {
             await dispatch(loginAsync({ email, password }));
-
+            
             console.log('Login successful!');
            setisNihad(true);
         } catch (error) {
@@ -49,6 +49,7 @@ export default function SiginSignup() {
     
     useEffect(() => {
         if(isUser){
+           
             fetchLoginData2(email,password);
         }
 

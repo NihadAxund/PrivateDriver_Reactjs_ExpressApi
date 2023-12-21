@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import Folder from './Folder';
+import JoinedFolder from './JoinedFolder';
 
-const DelayedFolder = ({ folder, delay }) => {
+const DelayedFolder = ({ folder, delay,isGuest=false }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -16,7 +17,13 @@ const DelayedFolder = ({ folder, delay }) => {
     };
   }, [delay]);
 
-  return isVisible ? <Folder folder={folder} /> : null;
+  if(isGuest){
+    
+    return isVisible ? <JoinedFolder folder={folder} /> : null;
+  }
+  else{
+    return isVisible ? <Folder folder={folder} /> : null;
+  }
 };
 
 export default DelayedFolder;

@@ -13,7 +13,7 @@ function getLastPathComponent(fullPath) {
 }
 
 
-export default function Folder(props) {
+export default function JoinedFolder(props) {
   
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
@@ -33,13 +33,13 @@ export default function Folder(props) {
     <div className='animate__animated animate__zoomInDown folderbtn'>
 
       <button style={{ overflow: "hidden" }} onClick={openModal}>
-        <i className="fa-regular fa-folder-open" style={{ color: '#ffe14d' }}></i>
+        <i className="fa-regular fa-folder-open" style={{ color: '#0275d8' }}></i>
         <p>
           {getLastPathComponent(folder.name)}
         </p>
       </button>
       {showModal && (
-        <FolderModal folder={folder} closeModal={closeModal} />
+        <FolderModal folder={folder} isGuest={true} closeModal={closeModal} />
       )}
     </div>
   )

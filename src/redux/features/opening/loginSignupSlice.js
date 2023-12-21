@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const urlText = "https://privatedriver.onrender.com";
-//const urlText = "http://localhost:3005";
+//const urlText = "https://privatedriver.onrender.com";
+const urlText = "http://localhost:3005";
 
 const storedState = localStorage.getItem('reduxState');
 
@@ -54,7 +54,7 @@ export const signupAsync = createAsyncThunk("signup/signupAsync", async ({ name,
     } catch (error) {
         console.log(error.response.status);
         if (error.response.status == 400) {
-            alert(error.response.data.error);
+            
         }
         throw new Error("Signup Failed");
     }
@@ -75,7 +75,7 @@ export const loginSignupSlice = createSlice({
                 state.password = user.password;
                 state.isUser = true;
                 localStorage.setItem('reduxState', JSON.stringify({ loginSignup: { ...state } }));
-            } else {
+            }else {
                 state.email = null;
                 state.password = null;
                 state.isUser = false;

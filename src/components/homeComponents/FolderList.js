@@ -7,7 +7,7 @@ import DelayedFolder from './DelayedFolder';
 
 export default function FolderList() {
   const dispatch = useDispatch();
-  const { path, folders } = useSelector((state) => state.fileFolder);
+  const { path, folders,joinedFolder } = useSelector((state) => state.fileFolder);
   const [DriverPath, setDriverPath] = useState("Path/Driver>");
   const [FolderCount,setFolderCount] = useState(0);
   
@@ -34,6 +34,11 @@ export default function FolderList() {
           <p>{DriverPath}</p>
         </section>
      
+        {joinedFolder.map((folder, index) => (
+          <DelayedFolder key={folder.id} folder={folder} isGuest={true} delay={index * 500} />
+          
+        ))}
+
         {folders.map((folder, index) => (
           <DelayedFolder key={folder.id} folder={folder} delay={index * 500} />
           
