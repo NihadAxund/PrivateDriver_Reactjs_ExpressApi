@@ -13,9 +13,9 @@ function getLastPathComponent(fullPath) {
   return lastPart;
 }
 
-// const sharedurl = "http://localhost:3000/joinfolder/";
+const sharedurl = "http:/localhost:3000/joinfolder/";
 
-const sharedurl = "https://data-share-front.vercel.app//joinfolder/"
+//const sharedurl = "https:/data-share-front.vercel.app/joinfolder/"
 
 const FolderModal = ({ folder, closeModal, isGuest = false }) => {
 

@@ -20,10 +20,10 @@ export default function AddFolderBtn() {
         try {
             await dispatch(addFolderAsync({ folderName }));
             console.log('Folder Succes!');
-            dispatch(getUserFoldersAsync());
+            await dispatch(getUserFoldersAsync());
             setDropdownOpen(prevState => !prevState);
         } catch (error) {
-            console.error('Add Folder failed:', error.message);
+            console.log('Add Folder failed:', error.message);
 
         }
     };
